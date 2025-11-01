@@ -251,7 +251,6 @@
         let svg, g, container; 
         let width = 0;
         let height = 0;
-        let treeSizeX = 600; // Initial vertical angular range for better spread
         let cluster; // Use cluster for compact no-overlap
 
         // Branch colors (extend Tailwind)
@@ -339,16 +338,40 @@
             nodes.forEach(d => { d.y = d.depth * 250; }); // Increased radial separation for more horizontal space
 
             // Root fixed center
-            root.x = treeSizeX / 2;
+            const layoutSizeX = cluster.size()[0];
+            root.x = layoutSizeX / 2;
             root.y = 0;
             nodes.forEach(d => { if (d.parent) d.x = d.parent.x + (d.x - root.x) * 0.6; }); // Adjusted compression for balanced spread
 
-            const deltas = nodes.map(d => d.x - root.x);
-            const min_delta = d3.min(deltas);
-            const max_delta = d3.max(deltas);
-            const contentHeight = max_delta - min_delta;
-            const padding = 200;
-            const requiredHeight = contentHeight + padding * 2 + 50;
+            // Fix main branches to static vertical positions
+            const n = root.children ? root.children.length : 0;
+            if (n > 0) {
+                const halfSpread = (layoutSizeX / 2) - 100;
+                root.children.forEach((child, i) => {
+                    let target_x;
+                    if (n === 1) {
+                        target_x = layoutSizeX / 2;
+                    } else {
+                        const pos = 2 * i / (n - 1) - 1; // -1 to 1
+                        target_x = layoutSizeX / 2 + pos * halfSpread;
+                    }
+                    const delta = target_x - child.x;
+                    function shift(node) {
+                        node.x += delta;
+                        if (node.children) {
+                            node.children.forEach(shift);
+                        }
+                    }
+                    shift(child);
+                });
+            }
+
+            const vertical_rel = nodes.map(d => d.x - root.x);
+            const min_v = d3.min(vertical_rel) || 0;
+            const max_v = d3.max(vertical_rel) || 0;
+            const extent_v = max_v - min_v;
+            const padding = 150;
+            const requiredHeight = extent_v + margin.top + margin.bottom + 2 * padding;
             const containerHeight = container.clientHeight;
             const containerWidth = container.clientWidth;
             
@@ -358,12 +381,12 @@
 
             svg.transition().duration(duration).attr("width", finalSvgWidth + 'px').attr("height", finalSvgHeight + 'px');
 
-            const rootScreenX = margin.left;
-            const rootScreenY = padding - min_delta;
+            const rootScreenX = margin.left + 50;
+            const rootScreenY = margin.top + padding - min_v;
             g.transition().duration(duration).attr("transform", `translate(${rootScreenX}, ${rootScreenY})`);
             
             setTimeout(() => {
-                 container.scrollTop = 0;
+                 container.scrollTop = rootScreenY - (container.clientHeight / 2);
                  container.scrollLeft = 0;
             }, duration);
 
@@ -453,38 +476,10 @@
             const containerHeight = container.clientHeight;
             width = containerWidth - margin.left - margin.right;
             height = containerHeight - margin.top - margin.bottom;
-            treeSizeX = Math.max(height, 800); // Increased to allow fuller angular spread without excessive compression
-            cluster.size([treeSizeX, width]);
+            cluster.size([Math.max(height, 800), width]);
 
             if (root) {
-                const treeDataComputed = cluster(root);
-                const nodes = treeDataComputed.descendants();
-                root.x = treeSizeX / 2;
-                root.y = 0;
-                nodes.forEach(d => { if (d.parent) d.x = d.parent.x + (d.x - root.x) * 0.6; }); // Balanced compression
-
-                const deltas = nodes.map(d => d.x - root.x);
-                const min_delta = d3.min(deltas);
-                const max_delta = d3.max(deltas);
-                const contentHeight = max_delta - min_delta;
-                const padding = 200;
-                const requiredHeight = contentHeight + padding * 2 + 50;
-
-                const max_y = d3.max(nodes, d => d.y) || width;
-                
-                const finalSvgHeight = Math.max(containerHeight, requiredHeight);
-                const finalSvgWidth = Math.max(containerWidth, max_y + margin.left + margin.right + 100); 
-
-                svg.attr("width", finalSvgWidth + 'px').attr("height", finalSvgHeight + 'px');
-
-                const rootScreenX = margin.left;
-                const rootScreenY = padding - min_delta;
-                g.attr("transform", `translate(${rootScreenX}, ${rootScreenY})`);
-                
                 update(root);
-                
-                container.scrollTop = 0;
-                container.scrollLeft = 0;
             }
         }
 
@@ -492,7 +487,7 @@
         window.onload = function () {
             setupSvg(); 
             root = d3.hierarchy(treeData, d => d.children);
-            root.x0 = treeSizeX / 2;
+            root.x0 = height / 2;
             root.y0 = 0;
 
             // Collapse all
