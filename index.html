@@ -122,6 +122,9 @@
         <svg id="tree-svg"></svg>
     </main>
 
+    <!-- Vercel Analytics: For integration in a Next.js app, run `npm i @vercel/analytics` and add the import { Analytics } from "@vercel/analytics/next" in your _app.js or layout, then <Analytics />. For static HTML, use the script below with your project ID from Vercel dashboard. Replace YOUR_PROJECT_ID. -->
+    <script defer src="https://analytics.vercel.com/script.js?v=1" data-sdk-version="3" data-website-id="YOUR_PROJECT_ID"></script>
+
     <script>
         // --- PROFESSIONAL DATA STRUCTURE (v10.0: Recruiter-Facing, Few Words, Color-Coded, Nov 1 Update) ---
         // Nov 1: EY AI cert active (post-Oct 25). Structure: Central "Navneet Chaudhary" → 9 branches (exact prompt). Color: Expertise teal, Skills blue, Tools gray, Achievements green, Leadership orange, Edu purple, Certs indigo, Projects cyan, Recognition yellow (Tailwind extend). Collapsed default; expand for hierarchy. Export: Browser devtools PNG/SVG; Ctrl+P PDF.
@@ -136,7 +139,6 @@
                         { "name": "Taxation" },
                         { "name": "MIS" },
                         { "name": "Audit" },
-                        { "name": "Working Capital" },
                         { "name": "Project Finance" },
                         { "name": "Cash Flow Management" }
                     ]
@@ -182,7 +184,7 @@
                     "name": "Leadership",
                     "children": [
                         { "name": "Mentored Team" },
-                        { "name": "Promoted Intern" },
+                        { "name": "Multiplier" },
                         { "name": "Knowledge Transfer" },
                         { "name": "Capability Building" }
                     ]
@@ -327,9 +329,12 @@
             root.y = 0;
             nodes.forEach(d => { if (d.parent) d.x = d.parent.x + (d.x - root.x) * 0.6; }); // Adjusted compression for balanced spread
 
-            const max_x = d3.max(nodes, d => d.x) || treeSizeX / 2;
-            const min_x = d3.min(nodes, d => d.x) || 0;
-            const requiredHeight = (max_x - min_x) + (margin.top + margin.bottom) + 50;
+            const deltas = nodes.map(d => d.x - root.x);
+            const min_delta = d3.min(deltas);
+            const max_delta = d3.max(deltas);
+            const contentHeight = max_delta - min_delta;
+            const padding = 200;
+            const requiredHeight = contentHeight + padding * 2 + 50;
             const containerHeight = container.clientHeight;
             const containerWidth = container.clientWidth;
             
@@ -340,7 +345,7 @@
             svg.transition().duration(duration).attr("width", finalSvgWidth + 'px').attr("height", finalSvgHeight + 'px');
 
             const rootScreenX = margin.left;
-            const rootScreenY = finalSvgHeight / 2;
+            const rootScreenY = padding - min_delta;
             g.transition().duration(duration).attr("transform", `translate(${rootScreenX}, ${rootScreenY})`);
             
             setTimeout(() => {
@@ -444,9 +449,12 @@
                 root.y = 0;
                 nodes.forEach(d => { if (d.parent) d.x = d.parent.x + (d.x - root.x) * 0.6; }); // Balanced compression
 
-                const max_x = d3.max(nodes, d => d.x) || treeSizeX / 2;
-                const min_x = d3.min(nodes, d => d.x) || 0;
-                const requiredHeight = (max_x - min_x) + (margin.top + margin.bottom) + 50;
+                const deltas = nodes.map(d => d.x - root.x);
+                const min_delta = d3.min(deltas);
+                const max_delta = d3.max(deltas);
+                const contentHeight = max_delta - min_delta;
+                const padding = 200;
+                const requiredHeight = contentHeight + padding * 2 + 50;
 
                 const max_y = d3.max(nodes, d => d.y) || width;
                 
@@ -456,7 +464,7 @@
                 svg.attr("width", finalSvgWidth + 'px').attr("height", finalSvgHeight + 'px');
 
                 const rootScreenX = margin.left;
-                const rootScreenY = finalSvgHeight / 2;
+                const rootScreenY = padding - min_delta;
                 g.attr("transform", `translate(${rootScreenX}, ${rootScreenY})`);
                 
                 update(root);
@@ -482,5 +490,4 @@
 
     </script>
 </body>
-
 </html>
