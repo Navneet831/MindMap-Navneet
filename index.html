@@ -3,13 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navneet Chaudhary: Professional Mind Map</title>
+    <title>Navneet Mind Map</title>
+    <!-- Meta tags for SEO and crawling -->
+    <meta name="description" content="Navneet Chaudhary: Professional Mind Map showcasing Expertise, Skills, Tools, Achievements, Leadership, Education, Certifications, Projects, and Recognition.">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Navneet Mind Map">
+    <meta property="og:description" content="Interactive mind map of Navneet Chaudhary's professional profile in finance, accounting, and data analytics.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://navnnet831.com">
+    <meta property="og:image" content="https://example.com/mindmap-preview.jpg"> <!-- Replace with actual image URL -->
     <!-- Load Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load D3.js v7 CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
     <!-- Load Inter font for clarity -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) - GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1XL4LRC5PP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1XL4LRC5PP');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GT-57Z944P3');</script>
     <style>
         /* Enhanced font family and base styles for maximum clarity */
         body {
@@ -64,7 +87,7 @@
 
         /* Enhanced SVG container: fixed viewport, independent scroll */
         #tree-svg-container {
-            height: calc(100vh - 80px); /* Fixed: Full viewport minus header */
+            height: 100vh; /* Full viewport height */
             width: 100%;
             overflow: auto;
             overflow-x: scroll;
@@ -109,21 +132,21 @@
         }
     </script>
 </head>
-<body class="bg-slate-900 text-slate-100 flex flex-col h-screen antialiased">
+<body class="bg-slate-900 text-slate-100 h-screen antialiased">
 
-    <!-- Header Section - CFO-professional -->
-    <header class="p-3 border-b border-slate-700 shadow-lg bg-slate-800 z-10 flex-shrink-0" style="height: 80px;">
-        <h1 class="text-2xl font-semibold text-cfo-teal text-center tracking-tight">Navneet Chaudhary</h1>
-        <p class="text-xs text-slate-400 text-center mt-0.5">Recruiter Mind Map: Expertise | Skills | Tools | Achievements | Leadership | Education | Certifications | Projects | Recognition</p>
-    </header>
+    <!-- Title in left top -->
+    <div class="absolute top-4 left-4 z-10">
+        <h1 class="text-2xl font-semibold text-cfo-teal tracking-tight">Navneet Mind Map</h1>
+    </div>
 
-    <!-- Visualization Container - Fixed viewport with independent scroll -->
-    <main class="flex-grow relative" id="tree-svg-container">
+    <!-- Visualization Container - Full viewport with independent scroll -->
+    <div class="relative" id="tree-svg-container">
         <svg id="tree-svg"></svg>
-    </main>
+    </div>
 
-    <!-- Vercel Analytics: For integration in a Next.js app, run `npm i @vercel/analytics` and add the import { Analytics } from "@vercel/analytics/next" in your _app.js or layout, then <Analytics />. For static HTML, use the script below with your project ID from Vercel dashboard. Replace YOUR_PROJECT_ID. -->
-    <script defer src="https://analytics.vercel.com/script.js?v=1" data-sdk-version="3" data-website-id="YOUR_PROJECT_ID"></script>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GT-57Z944P3"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <script>
         // --- PROFESSIONAL DATA STRUCTURE (v10.0: Recruiter-Facing, Few Words, Color-Coded, Nov 1 Update) ---
@@ -137,7 +160,6 @@
                         { "name": "FP&A" },
                         { "name": "Accounting" },
                         { "name": "Taxation" },
-                        { "name": "MIS" },
                         { "name": "Audit" },
                         { "name": "Project Finance" },
                         { "name": "Cash Flow Management" }
@@ -148,13 +170,10 @@
                     "children": [
                         { "name": "Financial Modelling" },
                         { "name": "Budgeting & Forecasting" },
-                        { "name": "Variance Analysis" },
                         { "name": "Financial Reporting (IFRS/Ind AS)" },
                         { "name": "Tax Compliance (GST/TDS/TCS)" },
-                        { "name": "Process Automation" },
-                        { "name": "RPA" },
-                        { "name": "Data Analytics" },
-                        { "name": "Visualization" }
+                        { "name": "Process Automation/RPA" },
+                        { "name": "Data Analytics & Visualisation" }
                     ]
                 },
                 {
@@ -163,9 +182,6 @@
                         { "name": "SAP (FICO/MM)" },
                         { "name": "Tally" },
                         { "name": "Advanced Excel" },
-                        { "name": "Python" },
-                        { "name": "VBA" },
-                        { "name": "SQLite3" },
                         { "name": "AI Tools" }
                     ]
                 },
@@ -185,14 +201,13 @@
                     "children": [
                         { "name": "Mentored Team" },
                         { "name": "Multiplier" },
-                        { "name": "Knowledge Transfer" },
+                        { "name": "Cost efficient team building" },
                         { "name": "Capability Building" }
                     ]
                 },
                 {
                     "name": "Education",
                     "children": [
-                        { "name": "MBA (IGNOU)" },
                         { "name": "M.Com (IGNOU)" },
                         { "name": "PGDIB (IGNOU)" },
                         { "name": "B.Com (DU)" },
@@ -224,7 +239,6 @@
                     "children": [
                         { "name": "Winner NSE Quiz" },
                         { "name": "Rank 3 Economics Quiz" },
-                        { "name": "FinX Contributor" },
                         { "name": "Robinhood Army Volunteer" }
                     ]
                 }
